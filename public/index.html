@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Button Click Counter</title>
+</head>
+<body>
+  <h1>Button Click Counter</h1>
+  <form id="counter-form">
+    <label for="name">Enter Your Name:</label>
+    <input type="text" id="name" name="name" required />
+    <button type="submit">Click Me!</button>
+  </form>
+
+  <p id="result"></p>
+
+  <script>
+    document.getElementById("counter-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+
+      const response = await fetch("/count", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name })
+      });
+
+      const data = await response.json();
+      document.getElementById("result").innerText = `${data.name} clicked the button ${data.count} times.`;
+    });
+  </script>
+</body>
+</html>
